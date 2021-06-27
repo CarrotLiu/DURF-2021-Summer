@@ -13,8 +13,10 @@ function setupGLTF() {
   loader.load(
     //both animation&model works:
     //1. fox model
-    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFox.glb?v=1624811797502", 
-    //2. 
+    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFox.glb?v=1624811797502", 
+  
+    //2. Footman_rig model
+    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFootman_RIG.glb?v=1624812048970",
     gltf => {
       // called when the resource is loaded
 
@@ -48,8 +50,10 @@ function loadModel(url) {
 }
 
 let model1, model2;
+//fox
 let p1 = loadModel('https://cdn.glitch.com/f2ed76f1-76e2-4403-a68d-cc3484e05a36%2FFox.glb?v=1624806759004').then(result => {  model1 = result.scene.children[0]; });
-let p2 = loadModel('model2/scene.gltf').then(result => {  model2 = result.scene.children[0]; });
+//footman
+let p2 = loadModel('https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFootman_RIG.glb?v=1624812048970').then(result => {  model2 = result.scene.children[0]; });
 
 Promise.all([p1,p2]).then(() => {
    //do something to the model
