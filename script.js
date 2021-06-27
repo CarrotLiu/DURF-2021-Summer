@@ -13,10 +13,10 @@ function setupGLTF() {
   loader.load(
     //both animation&model works:
     //1. fox model
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFox.glb?v=1624811797502", 
+    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFox.glb?v=1624811797502", 
   
     //2. Footman_rig model
-    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFootman_RIG.glb?v=1624812048970",
+    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFootman_RIG.glb?v=1624812048970",
     gltf => {
       // called when the resource is loaded
 
