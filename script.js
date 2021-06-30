@@ -13,19 +13,22 @@ function setupGLTF() {
   loader.load(
     //both animation&model works:
     //1. fox model
-    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFox.glb?v=1624811797502", 
+    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFox.glb?v=1624811797502", 
   
     //2. Footman_rig model
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFootman_RIG.glb?v=1624812048970",
+    
+    //3. EggysecondTest
+    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FEggySecondTest.glb?v=1625043157906",
     gltf => {
       // called when the resource is loaded
 
       console.log("Model is loaded");
-      console.log(gltf.scene);
+      // console.log(gltf.animation[1]);
       model = gltf.scene.children[0];
       mixer = new THREE.AnimationMixer(gltf.scene);
-      var action = mixer.clipAction(gltf.animations[0]);
-      action.play();
+      // var action = mixer.clipAction(gltf.animations[0]);
+      // action.play();
       scene.add(gltf.scene);
       // mixer= new THREE.AnimationMixer(gltf.scene);
       // gltf.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
@@ -43,26 +46,26 @@ function setupGLTF() {
   );
 }
 
-function loadModel(url) {
-  return new Promise(resolve => {
-    new THREE.GLTFLoader().load(url, resolve);
-  });
-}
+// function loadModel(url) {
+//   return new Promise(resolve => {
+//     new THREE.GLTFLoader().load(url, resolve);
+//   });
+// }
 
-let model1, model2;
-//fox
-let p1 = loadModel('https://cdn.glitch.com/f2ed76f1-76e2-4403-a68d-cc3484e05a36%2FFox.glb?v=1624806759004').then(result => {  model1 = result.scene.children[0]; });
-//footman
-let p2 = loadModel('https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFootman_RIG.glb?v=1624812048970').then(result => {  model2 = result.scene.children[0]; });
+// let model1, model2;
+// //fox
+// let p1 = loadModel('https://cdn.glitch.com/f2ed76f1-76e2-4403-a68d-cc3484e05a36%2FFox.glb?v=1624806759004').then(result => {  model1 = result.scene.children[0]; });
+// //footman
+// let p2 = loadModel('https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFootman_RIG.glb?v=1624812048970').then(result => {  model2 = result.scene.children[0]; });
 
-Promise.all([p1,p2]).then(() => {
-   //do something to the model
-   model1.position.set(0,0,0);
-   model2.position.set(0,20,0);
-   //add model to the scene
-   scene.add(model1);
-   scene.add(model2);
-});
+// Promise.all([p1,p2]).then(() => {
+//    //do something to the model
+//    model1.position.set(0,0,0);
+//    model2.position.set(0,20,0);
+//    //add model to the scene
+//    scene.add(model1);
+//    scene.add(model2);
+// });
 
 
 
