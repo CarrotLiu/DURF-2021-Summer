@@ -19,7 +19,7 @@ function setupGLTF() {
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFootman_RIG.glb?v=1624812048970",
     
     //3. EggysecondTest
-    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FEggySecondTest.glb?v=1625043157906",
+    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FEggyThirdTest.glb?v=1626148123655",
     gltf => {
       // called when the resource is loaded
 
@@ -76,13 +76,17 @@ function setup() {
   canvas.parent("container-p5");
   canvas.hide();
   background(50);
+  
 
   initTHREE();
   animate();
+  
 }
 
 function draw() {
+  
   noLoop();
+  
 }
 
 ///// three.js /////
