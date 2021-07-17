@@ -26,9 +26,10 @@ function setupGLTF() {
       console.log("Model is loaded");
       // console.log(gltf.animation[1]);
       model = gltf.scene.children[0];
+      model.scale.set(2,2,2);
       mixer = new THREE.AnimationMixer(gltf.scene);
-      // var action = mixer.clipAction(gltf.animations[0]);
-      // action.play();
+      var action = mixer.clipAction(gltf.animations[0]);
+      action.play();
       scene.add(gltf.scene);
       // mixer= new THREE.AnimationMixer(gltf.scene);
       // gltf.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
