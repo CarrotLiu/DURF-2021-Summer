@@ -26,7 +26,7 @@ function setupGLTF() {
       console.log("Model is loaded");
       // console.log(gltf.animation[1]);
       model = gltf.scene.children[0];
-      model.scale.set(2,2,2);
+      gltf.scene.scale.set(160,160,160);
       mixer = new THREE.AnimationMixer(gltf.scene);
       var action = mixer.clipAction(gltf.animations[0]);
       action.play();
