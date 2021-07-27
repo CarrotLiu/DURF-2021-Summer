@@ -34,7 +34,9 @@ function setupGLTF() {
       // gltf.scene.scale.set(10,10,10);
       mixer = new THREE.AnimationMixer(gltf.scene);
       var action = mixer.clipAction(gltf.animations[0]);
+      console.log(action);
       action.play();
+      // action.setloop(1,5);
       
       scene.add(gltf.scene);
       // mixer= new THREE.AnimationMixer(gltf.scene);
