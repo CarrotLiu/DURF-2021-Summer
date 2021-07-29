@@ -19,11 +19,11 @@ function setupGLTF() {
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFootman_RIG.glb?v=1624812048970",
     
     //3. EggysecondTest
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FCubegltftest.gltf?v=1626150211497",
+    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FCubegltftest.gltf?v=1626150211497",
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmanmodelonly.glb?v=1626874020500",
     //"https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Ftest4Brushman.glb?v=1627369904670", // test4
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fanimationtest3brushman.glb?v=1627390049709",//test3
-    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fanimationtest4brushman.glb?v=1627392563444",
+    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fanimationtest4brushman.glb?v=1627392563444", //my current model 
     gltf => {
       // called when the resource is loaded
 
@@ -32,7 +32,7 @@ function setupGLTF() {
       model = gltf.scene.children[0];
       console.log(gltf.animations[0]);
       // use after animation is added:
-      // gltf.scene.scale.set(10,10,10);
+      gltf.scene.scale.set(160,160,160);
       mixer = new THREE.AnimationMixer(gltf.scene);
       var action = mixer.clipAction(gltf.animations[0]);
       console.log(action);
