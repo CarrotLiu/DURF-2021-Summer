@@ -24,7 +24,7 @@ function setupGLTF() {
     //"https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Ftest4Brushman.glb?v=1627369904670", // test4
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fanimationtest3brushman.glb?v=1627390049709",//test3
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fanimationtest4brushman.glb?v=1627392563444", //my current model 
-    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fcolormanmodel6.gltf?v=1627545394954",
+    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fcolormanmodel7.gltf?v=1627547715981",
     gltf => {
       // called when the resource is loaded
 
