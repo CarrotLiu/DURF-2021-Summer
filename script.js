@@ -30,7 +30,8 @@ function setupGLTF() {
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FBrushmantest9.gltf?v=1627739335579",
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FBrushmantest10.gltf?v=1627739533904",
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest11.gltf?v=1627739777409",
-    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest14.gltf?v=1628079182166",
+    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest15.gltf?v=1628496266550",
+    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest14.gltf?v=1628079182166",
     
     gltf => {
       // called when the resource is loaded
@@ -188,7 +189,6 @@ function animate() {
 	render();
 
 	stats.update();
-  // updateTHREE();
 
   
 }
@@ -208,26 +208,9 @@ function onWindowResize() {
 }
 
 //geometries in three.js
-function setupTHREE() {
-  // add your code here!
 
-  // (example)
-  cube = getBox();
-  // cube.position.set(-1000, 10, 20);
-  scene.add(cube);
-}
 
-function updateTHREE() {
-  // add your code here!
 
-  // (example)
-  // model.rotation.x += 0.01;
-  // model.rotation.z += 0.01;
-
-  cube.scale.x = 10.0;
-  cube.scale.y = 10.0;
-  cube.scale.z = 10.0;
-}
 
 function getBox() {
   let geometry = new THREE.BoxGeometry(1, 1, 1);
