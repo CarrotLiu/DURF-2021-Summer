@@ -33,7 +33,8 @@ function setupGLTF() {
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest15.gltf?v=1628496266550",
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest14.gltf?v=1628079182166",
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest16.gltf?v=1628496637193",
-    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest17.gltf?v=1628496740473",
+    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest17.gltf?v=1628496740473",
+    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest19.gltf?v=1628768814087",
     
     gltf => {
       // called when the resource is loaded
