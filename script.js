@@ -46,7 +46,7 @@ function setupGLTF() {
       // use after animation is added:
       gltf.scene.scale.set(6,6,6);
       mixer = new THREE.AnimationMixer(gltf.scene);
-      var action = mixer.clipAction(gltf.animations[0]);
+      var action = mixer.clipAction(gltf.animations[1]);
       console.log(action);
       action.play();
       // action.setLoop(2,5);
