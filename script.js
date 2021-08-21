@@ -215,15 +215,7 @@ function onWindowResize() {
 
 
 
-function getBox() {
-  let geometry = new THREE.BoxGeometry(1, 1, 1);
-  let material = new THREE.MeshNormalMaterial({
-    //wireframe: true
-  });
-  let mesh = new THREE.Mesh(geometry, material);
 
-  return mesh;
-}
 
 
 
