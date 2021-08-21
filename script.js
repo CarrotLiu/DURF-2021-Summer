@@ -48,10 +48,14 @@ function getMIDIMessage(message) {
       }
       break;
     case 128: // noteOff
-    noteOffCallback(note);
+    // noteOffCallback(note);
     break;
     // we could easily expand this switch statement to cover other types of commands such as controllers or sysex
   }
+}
+
+function noteOn(note) {
+    //...
 }
 
 
