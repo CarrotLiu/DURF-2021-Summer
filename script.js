@@ -5,6 +5,7 @@ let container, stats, gui, params;
 let scene, camera, renderer, hemiLight;
 let time = 0;
 let frame = 0;
+let command, velocity, note;
 
 if (navigator.requestMIDIAccess) {
   console.log("This browser supports WebMIDI!");
@@ -40,44 +41,49 @@ function getMIDIMessage(message) {
   switch (command) {
     case 144: // noteOn
       if (velocity > 0) {
-        console.log(velocity);
-        // noteOnListener(note, velocity);
+        noteOn(note);
       } else {
-        console.log("v=0");
+        noteOff(note);
+        // noteOnListener(note, velocity);
+
         // noteOffListener(note);
       }
       break;
     case 128: // noteOff
-    // noteOffCallback(note);
-    break;
+      console.log("quiet");
+      // noteOffCallback(note);
+      break;
     // we could easily expand this switch statement to cover other types of commands such as controllers or sysex
   }
 }
 
 function noteOn(note) {
-    //...
+  console.log(velocity);
 }
 
+function noteOff(note) {
+  console.log(velocity);
+}
 
 function setupGLTF() {
   const loader = new THREE.GLTFLoader();
   console.log(loader);
   scene = new THREE.Scene();
-  
+
   loader.load(
     //both animation&model works:
     //1. fox model
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFox.glb?v=1624811797502", 
-  
+    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFox.glb?v=1624811797502",
+
     //2. Footman_rig model
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFootman_RIG.glb?v=1624812048970",
-    
+
     //3. EggysecondTest
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FCubegltftest.gltf?v=1626150211497", // successful model with animation
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmanmodelonly.glb?v=1626874020500",
     //"https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Ftest4Brushman.glb?v=1627369904670", // test4
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fanimationtest3brushman.glb?v=1627390049709",//test3
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fanimationtest4brushman.glb?v=1627392563444", //my current model 
+    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fanimationtest4brushman.glb?v=1627392563444", //my current model
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fcolormanmodel7.gltf?v=1627547715981",
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FBrushmantest8.gltf?v=1627739133791",
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FBrushmantest9.gltf?v=1627739335579",
@@ -88,7 +94,7 @@ function setupGLTF() {
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest16.gltf?v=1628496637193",
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest17.gltf?v=1628496740473",
     "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest19.gltf?v=1628942854176",
-    
+
     gltf => {
       // called when the resource is loaded
 
@@ -97,13 +103,13 @@ function setupGLTF() {
       model = gltf.scene.children[0];
       console.log(gltf.animations[0]);
       // use after animation is added:
-      gltf.scene.scale.set(6,6,6);
+      gltf.scene.scale.set(6, 6, 6);
       mixer = new THREE.AnimationMixer(gltf.scene);
       var action = mixer.clipAction(gltf.animations[1]);
       console.log(action);
       action.play();
       // action.setLoop(2,5);
-      
+
       scene.add(gltf.scene);
       // mixer= new THREE.AnimationMixer(gltf.scene);
       // gltf.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
@@ -142,8 +148,6 @@ function setupGLTF() {
 //    scene.add(model2);
 // });
 
-
-
 ///// p5.js /////
 
 function setup() {
@@ -151,17 +155,13 @@ function setup() {
   canvas.parent("container-p5");
   canvas.hide();
   background(50);
-  
 
   initTHREE();
   animate();
-  
 }
 
 function draw() {
-  
   noLoop();
-  
 }
 
 ///// three.js /////
@@ -173,7 +173,7 @@ function initTHREE() {
 
   // scene.background = new THREE.Color(0xdddddd);
   // camera (fov, ratio, near, far)
-    setupGLTF();
+  setupGLTF();
   camera = new THREE.PerspectiveCamera(
     60,
     window.innerWidth / window.innerHeight,
@@ -185,12 +185,12 @@ function initTHREE() {
   // hemiLight.position.set(0, 0, 1000);
   // console.log(hemiLight);
   // scene.add(hemiLight);
-  	var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
-	scene.add( ambientLight );
+  var ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
+  scene.add(ambientLight);
 
-	var pointLight = new THREE.PointLight( 0xffffff, 0.8 );
-	camera.add( pointLight );
-	scene.add( camera );
+  var pointLight = new THREE.PointLight(0xffffff, 0.8);
+  camera.add(pointLight);
+  scene.add(camera);
 
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor("#333333");
@@ -228,7 +228,6 @@ function initTHREE() {
   stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
   container.appendChild(stats.dom);
   // render();
-
 }
 
 function animate() {
@@ -236,20 +235,16 @@ function animate() {
   // stats.update();
   // time = performance.now();
   // frame++;
-	requestAnimationFrame( animate );
+  requestAnimationFrame(animate);
 
-	var delta = clock.getDelta();
+  var delta = clock.getDelta();
 
-	if ( mixer ) mixer.update( delta );
+  if (mixer) mixer.update(delta);
 
-	render();
+  render();
 
-	stats.update();
-
-  
+  stats.update();
 }
-
-
 
 function render() {
   renderer.render(scene, camera);
@@ -264,13 +259,6 @@ function onWindowResize() {
 }
 
 //geometries in three.js
-
-
-
-
-
-
-
 
 // for the linter
 /* global
