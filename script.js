@@ -6,6 +6,8 @@ let scene, camera, renderer, hemiLight;
 let time = 0;
 let frame = 0;
 let command, velocity, note;
+let activeNote = [];
+let assignNote = []
 
 if (navigator.requestMIDIAccess) {
   console.log("This browser supports WebMIDI!");
