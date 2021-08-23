@@ -61,7 +61,18 @@ function getMIDIMessage(message) {
 }
 
 function noteOn(note) {
-  
+      switch(currentStep) {
+        // If the game hasn't started yet.
+        // The first noteOn message we get will run the first sequence
+        case 0:
+            // Run our start up sequence
+            runSequence('gamestart');
+
+            // Increment the currentStep so this is only triggered once
+            currentStep++;
+
+            break;
+    }
 }
 
 function noteOff(note) {
