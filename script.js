@@ -81,11 +81,15 @@ function noteOnListener(note, velocity) {
       //     .querySelector(".step1 .note:nth-child(" + (i + 1) + ")")
       //     .classList.add("on");
       // }
-
+      var match1 = false, match2 = false, match3 = false, match4 = false; 
       if (activeNoteSequence[(activeNoteSequence.length - 1)] == correctNoteSequence[0]) {
-        var match1 = true, match2 = false, match3 = false, match4 = false;
- 
-        
+        match1 = true;
+      } else if (activeNoteSequence[(activeNoteSequence.length - 1)] == correctNoteSequence[1]){
+        match2 = true;
+      } else if (activeNoteSequence[(activeNoteSequence.length - 1)] == correctNoteSequence[2]){
+        match3 = true;
+      } else if (activeNoteSequence[(activeNoteSequence.length - 1)] == correctNoteSequence[3]){
+        match4 = true;
       }
       if (match1) {
           // Run the next sequence and increment the current step
