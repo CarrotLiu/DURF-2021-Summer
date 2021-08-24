@@ -12,7 +12,6 @@ var activeChord = [];
 var correctNoteSequence = [60, 65, 69, 65, 69, 67, 65, 62, 60]; // Amazing Grace in F
 var activeNoteSequence = [];
 
-
 if (navigator.requestMIDIAccess) {
   console.log("This browser supports WebMIDI!");
 
@@ -62,150 +61,152 @@ function getMIDIMessage(message) {
 }
 
 function noteOnListener(note, velocity) {
+  switch (currentStep) {
+    // If the game hasn't started yet.
+    // The first noteOn message we get will run the first sequence
+    case 0:
+      // Run our start up sequence
+      runSequence("StartPage");
+      // Increment the currentStep so this is only triggered once
+      // currentStep++;
+      break;
 
-	switch(currentStep) {
-		// If the game hasn't started yet.
-		// The first noteOn message we get will run the first sequence
-		case 0: 
-			// Run our start up sequence
-			runSequence('Press!');
+    // The first lock - playing a correct sequence
+    case 1:
+      // add the note to the array
+      activeNoteSequence.push(note);
 
-			// Increment the currentStep so this is only triggered once
-			currentStep++;
-			
-			break;
+      // show the requisite number of note placeholders
+      for (var i = 0; i < activeNoteSequence.length; i++) {
+        document
+          .querySelector(".step1 .note:nth-child(" + (i + 1) + ")")
+          .classList.add("on");
+      }
 
-		// The first lock - playing a correct sequence
-		case 1:
-			// add the note to the array
-			activeNoteSequence.push(note);
+      // when the array is the same length as the correct sequence, compare the two
+      if (activeNoteSequence.length == correctNoteSequence.length) {
+        var match = true;
+        for (var index = 0; index < activeNoteSequence.length; index++) {
+          if (activeNoteSequence[index] != correctNoteSequence[index]) {
+            match = false;
+            break;
+          }
+        }
 
-			// show the requisite number of note placeholders
-			for (var i = 0; i < activeNoteSequence.length; i++) {
-				document.querySelector('.step1 .note:nth-child(' + (i + 1) + ')').classList.add('on');
-			}
+        if (match) {
+          // Run the next sequence and increment the current step
+          runSequence("lock1");
+          currentStep++;
+        } else {
+          // Clear the array and start over
+          activeNoteSequence = [];
 
-			// when the array is the same length as the correct sequence, compare the two
-			if (activeNoteSequence.length == correctNoteSequence.length) {
-				var match = true;
-				for (var index = 0; index < activeNoteSequence.length; index++) {
-					if (activeNoteSequence[index] != correctNoteSequence[index]) {
-						match = false;
-						break;
-					}
-				}
+          var lockInput = document.querySelector(".step1 .lock-input");
 
-				if (match) {
-					// Run the next sequence and increment the current step
-					runSequence('lock1');
-					currentStep++;
-				} else {
-					// Clear the array and start over
-					activeNoteSequence = [];
-					
-					var lockInput = document.querySelector('.step1 .lock-input');
-					
-					lockInput.classList.add('error');
-					window.setTimeout(function(){
-						lockInput.classList.remove('error');
-						for (var note of lockInput.querySelectorAll('.note')) {
-							note.classList.remove('on');
-						}
-					}, 500);
-				
-				}
-			}
-			break;
+          lockInput.classList.add("error");
+          window.setTimeout(function() {
+            lockInput.classList.remove("error");
+            for (var note of lockInput.querySelectorAll(".note")) {
+              note.classList.remove("on");
+            }
+          }, 500);
+        }
+      }
+      break;
 
-		case 2:
-			// add the note to the active chord array
-			activeChord.push(note);
+    case 2:
+      // add the note to the active chord array
+      activeChord.push(note);
 
-			// show the number of active notes
-			for (var i = 0; i < activeChord.length; i++) {
-				document.querySelector('.step2 .note:nth-child(' + (i + 1) + ')').classList.add('on');
-			}
+      // show the number of active notes
+      for (var i = 0; i < activeChord.length; i++) {
+        document
+          .querySelector(".step2 .note:nth-child(" + (i + 1) + ")")
+          .classList.add("on");
+      }
 
-			// If the array is the same length as the correct chord, compare
-			if (activeChord.length == correctChord.length) {
-				var match = true;
-				for (var index = 0; index < activeChord.length; index++) {
-					if (correctChord.indexOf(activeChord[index]) < 0) {
-						match = false;
-						break;
-					}
-				}
+      // If the array is the same length as the correct chord, compare
+      if (activeChord.length == correctChord.length) {
+        var match = true;
+        for (var index = 0; index < activeChord.length; index++) {
+          if (correctChord.indexOf(activeChord[index]) < 0) {
+            match = false;
+            break;
+          }
+        }
 
-				if (match) {
-					runSequence('lock2');
-					currentStep++;
-				} else {
-					var lockInput = document.querySelector('.step2 .lock-input');
-					
-					lockInput.classList.add('error');
-					window.setTimeout(function(){
-						lockInput.classList.remove('error');
-					}, 500);
-				}
-			}
-			break;
-	}
+        if (match) {
+          runSequence("lock2");
+          currentStep++;
+        } else {
+          var lockInput = document.querySelector(".step2 .lock-input");
+
+          lockInput.classList.add("error");
+          window.setTimeout(function() {
+            lockInput.classList.remove("error");
+          }, 500);
+        }
+      }
+      break;
+  }
 }
 
 function noteOffListener(note) {
+  switch (currentStep) {
+    case 2:
+      // Remove the note value from the active chord array
+      activeChord.splice(activeChord.indexOf(note), 1);
 
-	switch(currentStep) {
-		case 2:
-			// Remove the note value from the active chord array
-			activeChord.splice(activeChord.indexOf(note), 1);
-
-			// Hide the last note shown
-			document.querySelector('.step2 .note:nth-child(' + (activeChord.length + 1) + ')').classList.remove('on');
-			break;
-	}
+      // Hide the last note shown
+      document
+        .querySelector(
+          ".step2 .note:nth-child(" + (activeChord.length + 1) + ")"
+        )
+        .classList.remove("on");
+      break;
+  }
 }
 
 function runSequence(sequence) {
-	switch(sequence) {
-		case 'gamestart':			
-			// Now we'll start a countdown timer...
-			// code to trigger animations, give a clue for the first lock
-			advanceScreen();
-			successFlicker();
-			break;
-		
-		case 'lock1':
-			// code to trigger animations and give clue for the next lock
-			advanceScreen();
-			successFlicker();
-			break;
-		
-		case 'lock2':
-			// code to trigger animations, stop clock, end game
-			advanceScreen();
-			successFlicker();
-			break;
+  switch (sequence) {
+    case "StartPage":
+      // Now we'll start a countdown timer...
+      // code to trigger animations, give a clue for the first lock
+      advanceScreen();
+      successFlicker();
+      break;
 
-		case 'gameover':
-			currentStep = 3;
-			document.querySelector('.step3 p').innerHTML = "You lose...";
-			document.querySelector('body').dataset.step = "3";
-			document.querySelector('body').classList.add('gameover');
-			break;
-	}
+    case "lock1":
+      // code to trigger animations and give clue for the next lock
+      advanceScreen();
+      successFlicker();
+      break;
+
+    case "lock2":
+      // code to trigger animations, stop clock, end game
+      advanceScreen();
+      successFlicker();
+      break;
+
+    case "gameover":
+      currentStep = 3;
+      document.querySelector(".step3 p").innerHTML = "You lose...";
+      document.querySelector("body").dataset.step = "3";
+      document.querySelector("body").classList.add("gameover");
+      break;
+  }
 }
 
 function advanceScreen() {
-	document.querySelector('body').dataset.step++;
+  document.querySelector("body").dataset.step++;
 }
 function successFlicker() {
-	var b = document.querySelector('body')
-	b.classList.add('success');
-	window.setTimeout(function(){
-		b.classList.remove('success');
-	}, 2500);
+  var b = document.querySelector("body");
+  b.classList.add("success");
+  window.setTimeout(function() {
+    b.classList.remove("success");
+  }, 2500);
 }
-
 
 function setupGLTF() {
   const loader = new THREE.GLTFLoader();
@@ -213,45 +214,24 @@ function setupGLTF() {
   scene = new THREE.Scene();
 
   loader.load(
-    //both animation&model works:
-    //1. fox model
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFox.glb?v=1624811797502",
-
-    //2. Footman_rig model
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FFootman_RIG.glb?v=1624812048970",
-
-    //3. EggysecondTest
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FCubegltftest.gltf?v=1626150211497", // successful model with animation
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmanmodelonly.glb?v=1626874020500",
-    //"https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Ftest4Brushman.glb?v=1627369904670", // test4
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fanimationtest3brushman.glb?v=1627390049709",//test3
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fanimationtest4brushman.glb?v=1627392563444", //my current model
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fcolormanmodel7.gltf?v=1627547715981",
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FBrushmantest8.gltf?v=1627739133791",
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FBrushmantest9.gltf?v=1627739335579",
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FBrushmantest10.gltf?v=1627739533904",
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest11.gltf?v=1627739777409",
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest15.gltf?v=1628496266550",
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest14.gltf?v=1628079182166",
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest16.gltf?v=1628496637193",
-    // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest17.gltf?v=1628496740473",
     "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest19.gltf?v=1628942854176",
 
-  gltfData => {
+    gltfData => {
       // called when the resource is loaded
       console.log("Model is loaded");
-      
+
       gltf = gltfData;
       model = gltf.scene.children[0];
       // use after animation is added:
-      gltf.scene.scale.set(6,6,6);
+      gltf.scene.scale.set(6, 6, 6);
       mixer = new THREE.AnimationMixer(gltf.scene);
       // gltf.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
       let action = mixer.clipAction(gltf.animations[0]);
       action.play();
       // action.setLoop(2,5);
-      
+
       scene.add(gltf.scene);
+      currentStep++;
     },
     xhr => {
       // called while loading is progressing
@@ -364,14 +344,14 @@ function animate() {
 function keyPressed() {
   if (key >= 1 && key <= 4) {
     stopAnimations();
-    
+
     let index = parseInt(key);
-    mixer.clipAction(gltf.animations[(index - 1)]).play();
+    mixer.clipAction(gltf.animations[index - 1]).play();
   }
 }
 
 function stopAnimations() {
-  for (let i = 0; i < gltf.animations.length; i++ ) {
+  for (let i = 0; i < gltf.animations.length; i++) {
     mixer.clipAction(gltf.animations[i]).stop();
   }
 }
