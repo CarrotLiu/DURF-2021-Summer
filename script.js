@@ -1,13 +1,17 @@
-let cube, model, mixer, clock;
+let model, mixer, clock;
 let idelAction, tiptoeJumpAction;
-
+let gltf;
 let container, stats, gui, params;
 let scene, camera, renderer, hemiLight;
 let time = 0;
 let frame = 0;
+let currentStep = 0;
 let command, velocity, note;
-let activeNote = [];
-let assignNote = []
+var correctChord = [60, 64, 67, 70];
+var activeChord = [];
+var correctNoteSequence = [60, 65, 69, 65, 69, 67, 65, 62, 60]; // Amazing Grace in F
+var activeNoteSequence = [];
+
 
 if (navigator.requestMIDIAccess) {
   console.log("This browser supports WebMIDI!");
@@ -43,13 +47,10 @@ function getMIDIMessage(message) {
   switch (command) {
     case 144: // noteOn
       if (velocity > 0) {
-        activeNote.push(note);
-        noteOn(note);
+        activeNoteSequence.push(note);
+        noteOnListener(note, velocity);
       } else {
-        noteOff(note);
-        // noteOnListener(note, velocity);
-
-        // noteOffListener(note);
+        noteOffListener(note);
       }
       break;
     case 128: // noteOff
@@ -60,24 +61,151 @@ function getMIDIMessage(message) {
   }
 }
 
-function noteOn(note) {
-      switch(currentStep) {
-        // If the game hasn't started yet.
-        // The first noteOn message we get will run the first sequence
-        case 0:
-            // Run our start up sequence
-            runSequence('gamestart');
+function noteOnListener(note, velocity) {
 
-            // Increment the currentStep so this is only triggered once
-            currentStep++;
+	switch(currentStep) {
+		// If the game hasn't started yet.
+		// The first noteOn message we get will run the first sequence
+		case 0: 
+			// Run our start up sequence
+			runSequence('gamestart');
 
-            break;
-    }
+			// Increment the currentStep so this is only triggered once
+			currentStep++;
+			
+			break;
+
+		// The first lock - playing a correct sequence
+		case 1:
+			// add the note to the array
+			activeNoteSequence.push(note);
+
+			// show the requisite number of note placeholders
+			for (var i = 0; i < activeNoteSequence.length; i++) {
+				document.querySelector('.step1 .note:nth-child(' + (i + 1) + ')').classList.add('on');
+			}
+
+			// when the array is the same length as the correct sequence, compare the two
+			if (activeNoteSequence.length == correctNoteSequence.length) {
+				var match = true;
+				for (var index = 0; index < activeNoteSequence.length; index++) {
+					if (activeNoteSequence[index] != correctNoteSequence[index]) {
+						match = false;
+						break;
+					}
+				}
+
+				if (match) {
+					// Run the next sequence and increment the current step
+					runSequence('lock1');
+					currentStep++;
+				} else {
+					// Clear the array and start over
+					activeNoteSequence = [];
+					
+					var lockInput = document.querySelector('.step1 .lock-input');
+					
+					lockInput.classList.add('error');
+					window.setTimeout(function(){
+						lockInput.classList.remove('error');
+						for (var note of lockInput.querySelectorAll('.note')) {
+							note.classList.remove('on');
+						}
+					}, 500);
+				
+				}
+			}
+			break;
+
+		case 2:
+			// add the note to the active chord array
+			activeChord.push(note);
+
+			// show the number of active notes
+			for (var i = 0; i < activeChord.length; i++) {
+				document.querySelector('.step2 .note:nth-child(' + (i + 1) + ')').classList.add('on');
+			}
+
+			// If the array is the same length as the correct chord, compare
+			if (activeChord.length == correctChord.length) {
+				var match = true;
+				for (var index = 0; index < activeChord.length; index++) {
+					if (correctChord.indexOf(activeChord[index]) < 0) {
+						match = false;
+						break;
+					}
+				}
+
+				if (match) {
+					runSequence('lock2');
+					currentStep++;
+				} else {
+					var lockInput = document.querySelector('.step2 .lock-input');
+					
+					lockInput.classList.add('error');
+					window.setTimeout(function(){
+						lockInput.classList.remove('error');
+					}, 500);
+				}
+			}
+			break;
+	}
 }
 
-function noteOff(note) {
-  console.log(velocity);
+function noteOffListener(note) {
+
+	switch(currentStep) {
+		case 2:
+			// Remove the note value from the active chord array
+			activeChord.splice(activeChord.indexOf(note), 1);
+
+			// Hide the last note shown
+			document.querySelector('.step2 .note:nth-child(' + (activeChord.length + 1) + ')').classList.remove('on');
+			break;
+	}
 }
+
+function runSequence(sequence) {
+	switch(sequence) {
+		case 'gamestart':			
+			// Now we'll start a countdown timer...
+			// code to trigger animations, give a clue for the first lock
+			advanceScreen();
+			successFlicker();
+			break;
+		
+		case 'lock1':
+			// code to trigger animations and give clue for the next lock
+			advanceScreen();
+			successFlicker();
+			break;
+		
+		case 'lock2':
+			// code to trigger animations, stop clock, end game
+			advanceScreen();
+			successFlicker();
+			break;
+
+		case 'gameover':
+			currentStep = 3;
+			document.querySelector('.step3 p').innerHTML = "You lose...";
+			document.querySelector('body').dataset.step = "3";
+			document.querySelector('body').classList.add('gameover');
+			break;
+	}
+}
+
+function advanceScreen() {
+	document.querySelector('body').dataset.step++;
+}
+function successFlicker() {
+	var b = document.querySelector('body')
+	b.classList.add('success');
+	window.setTimeout(function(){
+		b.classList.remove('success');
+	}, 2500);
+}
+
 
 function setupGLTF() {
   const loader = new THREE.GLTFLoader();
@@ -109,26 +237,21 @@ function setupGLTF() {
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest17.gltf?v=1628496740473",
     "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest19.gltf?v=1628942854176",
 
-    gltf => {
+  gltfData => {
       // called when the resource is loaded
-
       console.log("Model is loaded");
-      // console.log(gltf.animation[1]);
+      
+      gltf = gltfData;
       model = gltf.scene.children[0];
-      console.log(gltf.animations[0]);
       // use after animation is added:
-      gltf.scene.scale.set(6, 6, 6);
+      gltf.scene.scale.set(6,6,6);
       mixer = new THREE.AnimationMixer(gltf.scene);
-      var action = mixer.clipAction(gltf.animations[1]);
-      console.log(action);
+      // gltf.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
+      let action = mixer.clipAction(gltf.animations[0]);
       action.play();
       // action.setLoop(2,5);
-
+      
       scene.add(gltf.scene);
-      // mixer= new THREE.AnimationMixer(gltf.scene);
-      // gltf.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
-      // console.log(model);
-      //let mesh1 = gltf.scene;
     },
     xhr => {
       // called while loading is progressing
@@ -140,6 +263,7 @@ function setupGLTF() {
     }
   );
 }
+
 
 // function loadModel(url) {
 //   return new Promise(resolve => {
@@ -258,6 +382,20 @@ function animate() {
   render();
 
   stats.update();
+}
+function keyPressed() {
+  if (key >= 1 && key <= 4) {
+    stopAnimations();
+    
+    let index = parseInt(key);
+    mixer.clipAction(gltf.animations[(index - 1)]).play();
+  }
+}
+
+function stopAnimations() {
+  for (let i = 0; i < gltf.animations.length; i++ ) {
+    mixer.clipAction(gltf.animations[i]).stop();
+  }
 }
 
 function render() {
