@@ -270,7 +270,7 @@ function setup() {
   let canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("container-p5");
   canvas.hide();
-  background(50);
+  background(0);
 
   initTHREE();
   animate();
