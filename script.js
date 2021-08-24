@@ -64,15 +64,14 @@ function noteOnListener(note, velocity) {
   switch (currentStep) {
     // If the game hasn't started yet.
     // The first noteOn message we get will run the first sequence
-    case 0:
-      // Run our start up sequence
+    case 1:
+      // Run start up sequence
       runSequence("StartPage");
-      // Increment the currentStep so this is only triggered once
       // currentStep++;
       break;
 
     // The first lock - playing a correct sequence
-    case 1:
+    case 2:
       // add the note to the array
       activeNoteSequence.push(note);
 
@@ -114,7 +113,7 @@ function noteOnListener(note, velocity) {
       }
       break;
 
-    case 2:
+    case 3:
       // add the note to the active chord array
       activeChord.push(note);
 
