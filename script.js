@@ -124,19 +124,7 @@ function noteOnListener(note, velocity) {
 }
 
 function noteOffListener(note) {
-  switch (currentStep) {
-    case 4:
-      // Remove the note value from the active chord array
-      activeChord.splice(activeChord.indexOf(note), 1);
-
-      // Hide the last note shown
-      document
-        .querySelector(
-          ".step2 .note:nth-child(" + (activeChord.length + 1) + ")"
-        )
-        .classList.remove("on");
-      break;
-  }
+  console.log("note off");
 }
 
 function runSequence(sequence) {
