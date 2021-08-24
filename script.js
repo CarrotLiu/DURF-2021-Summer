@@ -9,8 +9,9 @@ let currentStep = 0;
 let command, velocity, note;
 var correctChord = [60, 64, 67, 70];
 var activeChord = [];
-var correctNoteSequence = [60, 65, 69, 65, 69, 67, 65, 62, 60]; // Amazing Grace in F
+var correctNoteSequence = [60, 65, 69, 67]; 
 var activeNoteSequence = [];
+
 
 if (navigator.requestMIDIAccess) {
   console.log("This browser supports WebMIDI!");
@@ -46,7 +47,6 @@ function getMIDIMessage(message) {
   switch (command) {
     case 144: // noteOn
       if (velocity > 0) {
-        activeNoteSequence.push(note);
         noteOnListener(note, velocity);
       } else {
         noteOffListener(note);
@@ -82,17 +82,12 @@ function noteOnListener(note, velocity) {
       //     .classList.add("on");
       // }
 
-      // when the array is the same length as the correct sequence, compare the two
       if (activeNoteSequence[(activeNoteSequence.length - 1)] == correctNoteSequence[0]) {
-        var match = true;
-        for (var index = 0; index < activeNoteSequence.length; index++) {
-          if (activeNoteSequence[index] != correctNoteSequence[index]) {
-            match = false;
-            break;
-          }
-        }
-
-        if (match) {
+        var match1 = true, match2 = false, match3 = false, match4 = false;
+ 
+        
+      }
+      if (match1) {
           // Run the next sequence and increment the current step
           runSequence("handstand");
           currentStep++;
@@ -110,7 +105,6 @@ function noteOnListener(note, velocity) {
             }
           }, 500);
         }
-      }
       break;
 
     case 3:
@@ -152,7 +146,7 @@ function noteOnListener(note, velocity) {
 
 function noteOffListener(note) {
   switch (currentStep) {
-    case 2:
+    case 4:
       // Remove the note value from the active chord array
       activeChord.splice(activeChord.indexOf(note), 1);
 
