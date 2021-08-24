@@ -68,7 +68,7 @@ function noteOnListener(note, velocity) {
 		// The first noteOn message we get will run the first sequence
 		case 0: 
 			// Run our start up sequence
-			runSequence('gamestart');
+			runSequence('Press!');
 
 			// Increment the currentStep so this is only triggered once
 			currentStep++;
