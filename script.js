@@ -200,7 +200,7 @@ function setupGLTF() {
       gltf.scene.scale.set(6, 6, 6);
       mixer = new THREE.AnimationMixer(gltf.scene);
       // gltf.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
-      let action = mixer.clipAction(gltf.animations[0]);
+      let action = mixer.clipAction(gltf.animations[1]);
       action.play();
       // action.setLoop(2,5);
 
