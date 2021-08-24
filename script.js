@@ -181,7 +181,7 @@ function setupGLTF() {
       // action.setLoop(2,5);
 
       scene.add(gltf.scene);
-      currentStep++;
+      currentStep = 1;
     },
     xhr => {
       // called while loading is progressing
@@ -209,8 +209,6 @@ function setup() {
     navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
   } else {
     console.log("WebMIDI is not supported in this browser.");
-    document.querySelector(".step0").innerHTML =
-      "Error: This browser does not support WebMIDI.";
   }
   animate();
 }
