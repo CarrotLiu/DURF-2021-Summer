@@ -94,56 +94,23 @@ function noteOnListener(note, velocity) {
       if (match1) {
           // Run the next sequence and increment the current step
           runSequence("handstand");
-          currentStep++;
+          // currentStep++;
+        } else if (match2){
+          runSequence("idle");
+        } else if (match3) {
+          runSequence("jump");
+        } else if (match4) {
+          runSequence("slide");
         } else {
           // Clear the array and start over
           activeNoteSequence = [];
-
-          var lockInput = document.querySelector(".step1 .lock-input");
-
-          lockInput.classList.add("error");
-          window.setTimeout(function() {
-            lockInput.classList.remove("error");
-            for (var note of lockInput.querySelectorAll(".note")) {
-              note.classList.remove("on");
-            }
-          }, 500);
+          runSequence("wrongNote");
         }
       break;
 
     case 3:
       // add the note to the active chord array
       activeChord.push(note);
-
-      // show the number of active notes
-      for (var i = 0; i < activeChord.length; i++) {
-        document
-          .querySelector(".step2 .note:nth-child(" + (i + 1) + ")")
-          .classList.add("on");
-      }
-
-      // If the array is the same length as the correct chord, compare
-      if (activeChord.length == correctChord.length) {
-        var match = true;
-        for (var index = 0; index < activeChord.length; index++) {
-          if (correctChord.indexOf(activeChord[index]) < 0) {
-            match = false;
-            break;
-          }
-        }
-
-        if (match) {
-          runSequence("lock2");
-          currentStep++;
-        } else {
-          var lockInput = document.querySelector(".step2 .lock-input");
-
-          lockInput.classList.add("error");
-          window.setTimeout(function() {
-            lockInput.classList.remove("error");
-          }, 500);
-        }
-      }
       break;
   }
 }
@@ -179,17 +146,27 @@ function runSequence(sequence) {
       successFlicker();
       break;
 
-    case "lock2":
+    case "idle":
+      // code to trigger animations, stop clock, end game
+      advanceScreen();
+      successFlicker();
+      break;
+      
+    case "jump":
+      // code to trigger animations, stop clock, end game
+      advanceScreen();
+      successFlicker();
+      break;
+      
+    case "slide":
       // code to trigger animations, stop clock, end game
       advanceScreen();
       successFlicker();
       break;
 
-    case "gameover":
+    case "wrongNote":
       currentStep = 3;
-      document.querySelector(".step3 p").innerHTML = "You lose...";
-      document.querySelector("body").dataset.step = "3";
-      document.querySelector("body").classList.add("gameover");
+
       break;
   }
 }
