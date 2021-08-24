@@ -134,34 +134,24 @@ function noteOffListener(note) {
 function runSequence(sequence) {
   switch (sequence) {
     case "StartPage":
-      // Now we'll start a countdown timer...
-      // code to trigger animations, give a clue for the first lock
-      advanceScreen();
-      successFlicker();
+      
       break;
 
     case "handstand":
-      // code to trigger animations and give clue for the next lock
-      advanceScreen();
-      successFlicker();
+      stopAnimations();
+      mixer.clipAction(gltf.animations[ - 1]).play();
       break;
 
     case "idle":
-      // code to trigger animations, stop clock, end game
-      advanceScreen();
-      successFlicker();
+      stopAnimations();
       break;
       
     case "jump":
-      // code to trigger animations, stop clock, end game
-      advanceScreen();
-      successFlicker();
+      stopAnimations();
       break;
       
     case "slide":
-      // code to trigger animations, stop clock, end game
-      advanceScreen();
-      successFlicker();
+      stopAnimations();
       break;
 
     case "wrongNote":
@@ -171,16 +161,16 @@ function runSequence(sequence) {
   }
 }
 
-function advanceScreen() {
-  document.querySelector("body").dataset.step++;
+
+function keyPressed() {
+  if (key >= 1 && key <= 4) {
+    stopAnimations();
+
+    let index = parseInt(key);
+    mixer.clipAction(gltf.animations[index - 1]).play();
+  }
 }
-function successFlicker() {
-  var b = document.querySelector("body");
-  b.classList.add("success");
-  window.setTimeout(function() {
-    b.classList.remove("success");
-  }, 2500);
-}
+
 
 function setupGLTF() {
   const loader = new THREE.GLTFLoader();
@@ -315,14 +305,7 @@ function animate() {
 
   stats.update();
 }
-function keyPressed() {
-  if (key >= 1 && key <= 4) {
-    stopAnimations();
 
-    let index = parseInt(key);
-    mixer.clipAction(gltf.animations[index - 1]).play();
-  }
-}
 
 function stopAnimations() {
   for (let i = 0; i < gltf.animations.length; i++) {
