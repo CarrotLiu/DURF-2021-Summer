@@ -12,16 +12,6 @@ var activeChord = [];
 var correctNoteSequence = [60, 65, 69, 67];
 var activeNoteSequence = [];
 
-if (navigator.requestMIDIAccess && currentStep > 0) {
-  console.log("This browser supports WebMIDI!");
-
-  navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
-} else {
-  console.log("WebMIDI is not supported in this browser.");
-  document.querySelector(".step0").innerHTML =
-    "Error: This browser does not support WebMIDI.";
-}
-
 function onMIDISuccess(midiAccess) {
   console.log("midi success!");
   // document.querySelector(".step0").innerHTML = "Press any note to begin...";
@@ -213,7 +203,15 @@ function setup() {
   background(0);
 
   initTHREE();
+  if (navigator.requestMIDIAccess && currentStep > 0) {
+    console.log("This browser supports WebMIDI!");
 
+    navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
+  } else {
+    console.log("WebMIDI is not supported in this browser.");
+    document.querySelector(".step0").innerHTML =
+      "Error: This browser does not support WebMIDI.";
+  }
   animate();
 }
 
