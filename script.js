@@ -9,11 +9,10 @@ let currentStep = 0;
 let command, velocity, note;
 var correctChord = [60, 64, 67, 70];
 var activeChord = [];
-var correctNoteSequence = [60, 65, 69, 67]; 
+var correctNoteSequence = [60, 65, 69, 67];
 var activeNoteSequence = [];
 
-
-if (navigator.requestMIDIAccess) {
+if (navigator.requestMIDIAccess && currentStep > 0) {
   console.log("This browser supports WebMIDI!");
 
   navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
@@ -54,15 +53,13 @@ function getMIDIMessage(message) {
       break;
     case 128: // noteOff
       console.log("quiet");
-      // noteOffCallback(note);
       break;
-    // we could easily expand this switch statement to cover other types of commands such as controllers or sysex
   }
 }
 
 function noteOnListener(note, velocity) {
   switch (currentStep) {
-    // If the game hasn't started yet.
+    // If the model has been loaded.
     // The first noteOn message we get will run the first sequence
     case 1:
       // Run start up sequence
@@ -70,7 +67,6 @@ function noteOnListener(note, velocity) {
       // currentStep++;
       break;
 
-    // The first lock - playing a correct sequence
     case 2:
       // add the note to the array
       activeNoteSequence.push(note);
@@ -81,31 +77,43 @@ function noteOnListener(note, velocity) {
       //     .querySelector(".step1 .note:nth-child(" + (i + 1) + ")")
       //     .classList.add("on");
       // }
-      var match1 = false, match2 = false, match3 = false, match4 = false; 
-      if (activeNoteSequence[(activeNoteSequence.length - 1)] == correctNoteSequence[0]) {
+      var match1 = false,
+        match2 = false,
+        match3 = false,
+        match4 = false;
+      if (
+        activeNoteSequence[activeNoteSequence.length - 1] ==
+        correctNoteSequence[0]
+      ) {
         match1 = true;
-      } else if (activeNoteSequence[(activeNoteSequence.length - 1)] == correctNoteSequence[1]){
+      } else if (
+        activeNoteSequence[activeNoteSequence.length - 1] ==
+        correctNoteSequence[1]
+      ) {
         match2 = true;
-      } else if (activeNoteSequence[(activeNoteSequence.length - 1)] == correctNoteSequence[2]){
+      } else if (
+        activeNoteSequence[activeNoteSequence.length - 1] ==
+        correctNoteSequence[2]
+      ) {
         match3 = true;
-      } else if (activeNoteSequence[(activeNoteSequence.length - 1)] == correctNoteSequence[3]){
+      } else if (
+        activeNoteSequence[activeNoteSequence.length - 1] ==
+        correctNoteSequence[3]
+      ) {
         match4 = true;
       }
       if (match1) {
-          // Run the next sequence and increment the current step
-          runSequence("handstand");
-          // currentStep++;
-        } else if (match2){
-          runSequence("idle");
-        } else if (match3) {
-          runSequence("jump");
-        } else if (match4) {
-          runSequence("slide");
-        } else {
-          // Clear the array and start over
-          activeNoteSequence = [];
-          runSequence("wrongNote");
-        }
+        runSequence("handstand");
+      } else if (match2) {
+        runSequence("idle");
+      } else if (match3) {
+        runSequence("jump");
+      } else if (match4) {
+        runSequence("slide");
+      } else {
+        activeNoteSequence = [];
+        runSequence("wrongNote");
+      }
       break;
 
     case 3:
@@ -134,24 +142,26 @@ function noteOffListener(note) {
 function runSequence(sequence) {
   switch (sequence) {
     case "StartPage":
-      
       break;
 
     case "handstand":
       stopAnimations();
-      mixer.clipAction(gltf.animations[ - 1]).play();
+      mixer.clipAction(gltf.animations[0]).play();
       break;
 
     case "idle":
       stopAnimations();
+      mixer.clipAction(gltf.animations[1]).play();
       break;
-      
+
     case "jump":
       stopAnimations();
+      mixer.clipAction(gltf.animations[2]).play();
       break;
-      
+
     case "slide":
       stopAnimations();
+      mixer.clipAction(gltf.animations[3]).play();
       break;
 
     case "wrongNote":
@@ -161,7 +171,6 @@ function runSequence(sequence) {
   }
 }
 
-
 function keyPressed() {
   if (key >= 1 && key <= 4) {
     stopAnimations();
@@ -170,7 +179,6 @@ function keyPressed() {
     mixer.clipAction(gltf.animations[index - 1]).play();
   }
 }
-
 
 function setupGLTF() {
   const loader = new THREE.GLTFLoader();
@@ -217,6 +225,7 @@ function setup() {
   background(0);
 
   initTHREE();
+
   animate();
 }
 
@@ -305,7 +314,6 @@ function animate() {
 
   stats.update();
 }
-
 
 function stopAnimations() {
   for (let i = 0; i < gltf.animations.length; i++) {
