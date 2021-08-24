@@ -76,14 +76,14 @@ function noteOnListener(note, velocity) {
       activeNoteSequence.push(note);
 
       // show the requisite number of note placeholders
-      for (var i = 0; i < activeNoteSequence.length; i++) {
-        document
-          .querySelector(".step1 .note:nth-child(" + (i + 1) + ")")
-          .classList.add("on");
-      }
+      // for (var i = 0; i < activeNoteSequence.length; i++) {
+      //   document
+      //     .querySelector(".step1 .note:nth-child(" + (i + 1) + ")")
+      //     .classList.add("on");
+      // }
 
       // when the array is the same length as the correct sequence, compare the two
-      if (activeNoteSequence.length == correctNoteSequence.length) {
+      if (activeNoteSequence[(activeNoteSequence.length - 1)] == correctNoteSequence[0]) {
         var match = true;
         for (var index = 0; index < activeNoteSequence.length; index++) {
           if (activeNoteSequence[index] != correctNoteSequence[index]) {
@@ -94,7 +94,7 @@ function noteOnListener(note, velocity) {
 
         if (match) {
           // Run the next sequence and increment the current step
-          runSequence("lock1");
+          runSequence("handstand");
           currentStep++;
         } else {
           // Clear the array and start over
@@ -175,7 +175,7 @@ function runSequence(sequence) {
       successFlicker();
       break;
 
-    case "lock1":
+    case "handstand":
       // code to trigger animations and give clue for the next lock
       advanceScreen();
       successFlicker();
