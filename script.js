@@ -24,8 +24,8 @@ function onMIDISuccess(midiAccess) {
 }
 
 function onMIDIFailure() {
-  document.querySelector(".step0").innerHTML =
-    "Error: Could not access MIDI devices. Connect a device and refresh to try again.";
+  
+   console.log("Error: Could not access MIDI devices. Connect a device and refresh to try again.");
 }
 
 function getMIDIMessage(message) {
@@ -54,19 +54,13 @@ function noteOnListener(note, velocity) {
     case 1:
       // Run start up sequence
       runSequence("StartPage");
-      // currentStep++;
+      currentStep++;
       break;
 
     case 2:
       // add the note to the array
       activeNoteSequence.push(note);
 
-      // show the requisite number of note placeholders
-      // for (var i = 0; i < activeNoteSequence.length; i++) {
-      //   document
-      //     .querySelector(".step1 .note:nth-child(" + (i + 1) + ")")
-      //     .classList.add("on");
-      // }
       var match1 = false,
         match2 = false,
         match3 = false,
@@ -120,6 +114,7 @@ function noteOffListener(note) {
 function runSequence(sequence) {
   switch (sequence) {
     case "StartPage":
+      console.log("push any key to start");
       break;
 
     case "handstand":
