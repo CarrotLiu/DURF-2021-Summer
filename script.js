@@ -198,7 +198,7 @@ function setup() {
   background(0);
 
   initTHREE();
-  if (navigator.requestMIDIAccess && currentStep > 0) {
+  if (navigator.requestMIDIAccess) {
     console.log("This browser supports WebMIDI!");
 
     navigator.requestMIDIAccess().then(onMIDISuccess, onMIDIFailure);
