@@ -1,5 +1,5 @@
 let model, mixer, clock;
-let idelAction, tiptoeJumpAction;
+let idleAction, tiptoeJumpAction;
 let gltf;
 let container, stats, gui, params;
 let scene, camera, renderer, hemiLight;
