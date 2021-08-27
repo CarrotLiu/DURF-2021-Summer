@@ -159,7 +159,7 @@ function setupGLTF() {
   scene = new THREE.Scene();
 
   loader.load(
-    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest19.gltf?v=1628942854176",
+    "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2FBrushmanfinal21.gltf?v=1630043297386",
 
     gltfData => {
       // called when the resource is loaded
