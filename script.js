@@ -136,6 +136,11 @@ function runSequence(sequence) {
       stopAnimations();
       mixer.clipAction(gltf.animations[3]).play();
       break;
+      
+    case "walk":
+      stopAnimations();
+      mixer.clipAction(gltf.animations[4]).play();
+      break;
 
     case "wrongNote":
       currentStep = 3;
@@ -145,7 +150,7 @@ function runSequence(sequence) {
 }
 
 function keyPressed() {
-  if (key >= 1 && key <= 4) {
+  if (key >= 1 && key <= 5) {
     stopAnimations();
 
     let index = parseInt(key);
