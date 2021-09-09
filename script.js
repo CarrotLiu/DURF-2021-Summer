@@ -155,6 +155,7 @@ function keyPressed() {
 
     let index = parseInt(key);
     mixer.clipAction(gltf.animations[index - 1]).play();
+    model.position.x += 1
   }
 }
 
