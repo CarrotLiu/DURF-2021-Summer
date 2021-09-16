@@ -286,20 +286,20 @@ function initTHREE() {
   // https://davidwalsh.name/dat-gui
   gui = new dat.gui.GUI();
   params = {
-    value1: 0,
-    value2: 0,
+    jump: 0,
+    walk: 0,
     value3: 0
   };
-  gui.add(params, "value1", -10, 10).step(10);
+  gui.add(params, "jump", 0, 1).step(1);
   gui
-    .add(params, "value2")
-    .min(-10)
-    .max(10)
-    .step(10);
+    .add(params, "walk")
+    .min(0)
+    .max(1)
+    .step(1);
   // .listen()
   // .onChange(callback)
   let folder = gui.addFolder("FolderName");
-  folder.add(params, "value3", -10, 10).step(1);
+  folder.add(params, "value3", 0, 1).step(1);
 
   // stats
   stats = new Stats();
