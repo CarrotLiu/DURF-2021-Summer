@@ -1,5 +1,5 @@
 let model, mixer, clock;
-let keyindex = 0;
+let keyindex = [];
 let actions, activeAction, previousAction;
 let gltf;
 let positionModel = [0, 0, 0];
@@ -156,7 +156,7 @@ function runSequence(sequence) {
 function keyPressed() {
   if (key >= 1 && key <= 5) {
     stopAnimations();
-    keyindex = parseInt(key);
+    keyindex[0] = parseInt(key);
 
     let index = parseInt(key);
     mixer.clipAction(gltf.animations[index - 1]).play();
@@ -334,17 +334,20 @@ function stopAnimations() {
 function render() {
   renderer.render(scene, camera);
   if (keyindex == 1){
-    model.position.x = - 0.05;
+    model.position.x -= 0.05;
   } else if (keyindex == 2){
     model.position.z += 0;
   } else if (keyindex == 3){
     model.position.z += 0.06;
-    if(model.position.y < 0.06 && model.position.y > 0) {
-      model.position.y
-    }
+    // if(model.position.y < 0.06 && model.position.y > 0) {
+    //   model.position.y
+    // }
   } else if (keyindex == 4){
-    model.position.z += 0.06;
+    model.position.z += 0.07;
+  } else if (keyindex == 5){
+    model.position.z += 0.05;
   }
+
 
   // requestAnimationFrame(render);
 }
