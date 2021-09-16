@@ -239,7 +239,7 @@ function initTHREE() {
     0.1,
     5000
   );
-  camera.position.z = 100;
+  camera.position.set( - 50, 30, 90 );
   // camera.lookAt( new THREE.Vector3( 0, 2, 0 ) );
 
   // light
@@ -250,12 +250,26 @@ function initTHREE() {
   const dirLight = new THREE.DirectionalLight(0xffffff);
   dirLight.position.set(0, 20, 10);
   scene.add(dirLight);
+  
+  // ground
+  const mesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(3000, 3000),
+    new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false })
+  );
+  mesh.rotation.x = -Math.PI / 2;
+  scene.add(mesh);
+
+  // const grid = new THREE.GridHelper(200, 40, 0x000000, 0x000000);
+  // grid.material.opacity = 0.2;
+  // grid.material.transparent = true;
+  // scene.add(grid);
 
   // render
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor("#333333");
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
+
 
   // container
   container = document.getElementById("container-three");
