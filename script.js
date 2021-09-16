@@ -1,6 +1,7 @@
 let model, mixer, clock;
 let idleAction, tiptoeJumpAction;
 let gltf;
+let positionModel = [0, 0, 0];
 let container, stats, gui, params;
 let scene, camera, renderer, hemiLight;
 let time = 0;
@@ -174,6 +175,7 @@ function setupGLTF() {
 
       gltf = gltfData;
       model = gltf.scene;
+      model.position.z = 0;
       // use after animation is added:
       gltf.scene.scale.set(6, 6, 6);
       mixer = new THREE.AnimationMixer(gltf.scene);
@@ -224,6 +226,8 @@ function draw() {
 function initTHREE() {
   // scene
   scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xe0e0e0);
+  scene.fog = new THREE.Fog(0xe0e0e0, 20, 100);
   clock = new THREE.Clock();
 
   // scene.background = new THREE.Color(0xdddddd);
@@ -236,7 +240,8 @@ function initTHREE() {
     5000
   );
   camera.position.z = 100;
-  
+  // camera.lookAt( new THREE.Vector3( 0, 2, 0 ) );
+
   // light
   const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
   hemiLight.position.set(0, 20, 0);
@@ -245,7 +250,7 @@ function initTHREE() {
   const dirLight = new THREE.DirectionalLight(0xffffff);
   dirLight.position.set(0, 20, 10);
   scene.add(dirLight);
-  
+
   // render
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor("#333333");
