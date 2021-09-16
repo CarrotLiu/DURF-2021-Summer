@@ -24,8 +24,9 @@ function onMIDISuccess(midiAccess) {
 }
 
 function onMIDIFailure() {
-  
-   console.log("Error: Could not access MIDI devices. Connect a device and refresh to try again.");
+  console.log(
+    "Error: Could not access MIDI devices. Connect a device and refresh to try again."
+  );
 }
 
 function getMIDIMessage(message) {
@@ -136,7 +137,7 @@ function runSequence(sequence) {
       stopAnimations();
       mixer.clipAction(gltf.animations[3]).play();
       break;
-      
+
     case "walk":
       stopAnimations();
       mixer.clipAction(gltf.animations[4]).play();
@@ -155,7 +156,7 @@ function keyPressed() {
 
     let index = parseInt(key);
     mixer.clipAction(gltf.animations[index - 1]).play();
-    model.position.x += 1
+    model.position.x += 1;
   }
 }
 
@@ -172,7 +173,7 @@ function setupGLTF() {
       console.log("Model is loaded");
 
       gltf = gltfData;
-      model = gltf.scene.children[0];
+      model = gltf.scene;
       // use after animation is added:
       gltf.scene.scale.set(6, 6, 6);
       mixer = new THREE.AnimationMixer(gltf.scene);
@@ -235,17 +236,17 @@ function initTHREE() {
     5000
   );
   camera.position.z = 100;
-  hemiLight = new THREE.HemisphereLight(0xffeeb1, 0x080820, 4);
-  // hemiLight.position.set(0, 0, 1000);
-  // console.log(hemiLight);
-  // scene.add(hemiLight);
-  var ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
-  scene.add(ambientLight);
+  
+  // light
+  const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
+  hemiLight.position.set(0, 20, 0);
+  scene.add(hemiLight);
 
-  var pointLight = new THREE.PointLight(0xffffff, 0.8);
-  camera.add(pointLight);
-  scene.add(camera);
-
+  const dirLight = new THREE.DirectionalLight(0xffffff);
+  dirLight.position.set(0, 20, 10);
+  scene.add(dirLight);
+  
+  // render
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor("#333333");
   renderer.setPixelRatio(window.devicePixelRatio);
