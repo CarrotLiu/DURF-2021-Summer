@@ -158,7 +158,9 @@ function keyPressed() {
 
     let index = parseInt(key);
     mixer.clipAction(gltf.animations[index - 1]).play();
-    model.position.x += 1;
+    
+    // positionModel[1] += 5;
+    // model.position.y = positionModel[1];
   }
 }
 
@@ -270,6 +272,7 @@ function initTHREE() {
   renderer.setClearColor("#333333");
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
+  
 
 
   // container
@@ -324,11 +327,14 @@ function animate() {
 function stopAnimations() {
   for (let i = 0; i < gltf.animations.length; i++) {
     mixer.clipAction(gltf.animations[i]).stop();
+    
   }
 }
 
 function render() {
   renderer.render(scene, camera);
+  model.position.z += 0.01;
+  requestAnimationFrame(render);
 }
 
 // event listeners
