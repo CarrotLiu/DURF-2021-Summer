@@ -1,4 +1,5 @@
 let model, mixer, clock;
+let keyindex = 0;
 let actions, activeAction, previousAction;
 let gltf;
 let positionModel = [0, 0, 0];
@@ -159,8 +160,6 @@ function keyPressed() {
     let index = parseInt(key);
     mixer.clipAction(gltf.animations[index - 1]).play();
     
-    // positionModel[1] += 5;
-    // model.position.y = positionModel[1];
   }
 }
 
@@ -307,60 +306,6 @@ function initTHREE() {
   container.appendChild(stats.dom);
   // render();
 }
-
-		function createGUI( model, animations ) {
-
-				const states = ['handstand', 'idle', 'jump', 'slide', 'walk'];
-				gui = new dat.gui.GUI();
-				mixer = new THREE.AnimationMixer( model );
-				actions = {};
-
-				for (let i = 0; i < animations.length; i ++) {
-
-					const clip = animations[i];
-					const action = mixer.clipAction(clip);
-					actions[clip.name] = action;
-          
-					if (states.indexOf(clip.name) >= 4) {
-						action.clampWhenFinished = true;
-						action.loop = THREE.LoopOnce;
-					}
-				}
-
-				// states
-				const statesFolder = gui.addFolder('States');
-				const clipCtrl = statesFolder.add(api, 'state').options(states);
-				clipCtrl.onChange(function () {
-					fadeToAction(api.state, 0.5);
-				} );
-
-				statesFolder.open();
-
-				function restoreState() {
-					mixer.removeEventListener('finished', restoreState);
-					fadeToAction(api.state, 0.2);
-				}
-			}
-
-			function fadeToAction(name, duration) {
-				previousAction = activeAction;
-				activeAction = actions[name];
-
-				if (previousAction !== activeAction) {
-					previousAction.fadeOut(duration);
-				}
-        
-				activeAction
-					.reset()
-					.setEffectiveTimeScale( 1 )
-					.setEffectiveWeight( 1 )
-					.fadeIn( duration )
-					.play();
-
-			}
-
-
-
 			//
 function animate() {
   // requestAnimationFrame(animate);
@@ -399,7 +344,58 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-//geometries in three.js
+		function createGUI( model, animations ) {
+
+// 				const states = ['handstand', 'idle', 'jump', 'slide', 'walk'];
+// 				gui = new dat.gui.GUI();
+// 				mixer = new THREE.AnimationMixer( model );
+// 				actions = {};
+
+// 				for (let i = 0; i < animations.length; i ++) {
+
+// 					const clip = animations[i];
+// 					const action = mixer.clipAction(clip);
+// 					actions[clip.name] = action;
+          
+// 					if (states.indexOf(clip.name) >= 4) {
+// 						action.clampWhenFinished = true;
+// 						action.loop = THREE.LoopOnce;
+// 					}
+// 				}
+
+// 				// states
+// 				const statesFolder = gui.addFolder('States');
+// // 				const clipCtrl = statesFolder.add(api, 'state').options(states);
+// // 				clipCtrl.onChange(function () {
+// // 					fadeToAction(api.state, 0.5);
+// // 				} );
+
+// // 				statesFolder.open();
+
+// // 				function restoreState() {
+// // 					mixer.removeEventListener('finished', restoreState);
+// // 					fadeToAction(api.state, 0.2);
+// // 				}
+// // 			}
+
+// 			function fadeToAction(name, duration) {
+// 				previousAction = activeAction;
+// 				activeAction = actions[name];
+
+// 				if (previousAction !== activeAction) {
+// 					previousAction.fadeOut(duration);
+// 				}
+        
+// 				activeAction
+// 					.reset()
+// 					.setEffectiveTimeScale( 1 )
+// 					.setEffectiveWeight( 1 )
+// 					.fadeIn( duration )
+// 					.play();
+
+// 			}
+//     }
+
 
 // for the linter
 /* global
