@@ -156,6 +156,7 @@ function runSequence(sequence) {
 function keyPressed() {
   if (key >= 1 && key <= 5) {
     stopAnimations();
+    keyindex = parseInt(key);
 
     let index = parseInt(key);
     mixer.clipAction(gltf.animations[index - 1]).play();
@@ -332,7 +333,19 @@ function stopAnimations() {
 
 function render() {
   renderer.render(scene, camera);
-  model.position.z += 0.05;
+  if (keyindex == 1){
+    model.position.x = - 0.05;
+  } else if (keyindex == 2){
+    model.position.z += 0;
+  } else if (keyindex == 3){
+    model.position.z += 0.06;
+    if(model.position.y < 0.06 && model.position.y > 0) {
+      model.position.y
+    }
+  } else if (keyindex == 4){
+    model.position.z += 0.06;
+  }
+
   // requestAnimationFrame(render);
 }
 
@@ -344,7 +357,7 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-		function createGUI( model, animations ) {
+		// function createGUI( model, animations ) {
 
 // 				const states = ['handstand', 'idle', 'jump', 'slide', 'walk'];
 // 				gui = new dat.gui.GUI();
