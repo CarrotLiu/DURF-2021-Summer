@@ -2,6 +2,7 @@ let model, mixer, clock;
 let idleAction, tiptoeJumpAction;
 let gltf;
 let positionModel = [0, 0, 0];
+let positionCamera = [-75, 55, 70];
 let container, stats, gui, params;
 let scene, camera, renderer, hemiLight;
 let time = 0;
@@ -175,7 +176,7 @@ function setupGLTF() {
 
       gltf = gltfData;
       model = gltf.scene;
-      model.position.z = 0;
+      model.position = (positionModel[0], positionModel[1], positionModel[2]);
       // use after animation is added:
       gltf.scene.scale.set(6, 6, 6);
       mixer = new THREE.AnimationMixer(gltf.scene);
@@ -226,12 +227,12 @@ function draw() {
 function initTHREE() {
   // scene
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xe0e0e0);
+  scene.background = new THREE.Color();
   scene.fog = new THREE.Fog(0xe0e0e0, 20, 100);
   clock = new THREE.Clock();
 
   // scene.background = new THREE.Color(0xdddddd);
-  // camera (fov, ratio, near, far)
+ 
   setupGLTF();
   camera = new THREE.PerspectiveCamera(
     60,
@@ -239,7 +240,7 @@ function initTHREE() {
     0.1,
     5000
   );
-  camera.position.set( - 50, 30, 90 );
+  camera.position.set(positionCamera[0], positionCamera[1], positionCamera[2]);
   // camera.lookAt( new THREE.Vector3( 0, 2, 0 ) );
 
   // light
