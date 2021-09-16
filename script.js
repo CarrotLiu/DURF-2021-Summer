@@ -333,7 +333,7 @@ function stopAnimations() {
 
 function render() {
   renderer.render(scene, camera);
-  model.position.z += 0.01;
+  model.position.z += 0.05;
   requestAnimationFrame(render);
 }
 
