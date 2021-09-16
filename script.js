@@ -334,7 +334,7 @@ function stopAnimations() {
 function render() {
   renderer.render(scene, camera);
   model.position.z += 0.05;
-  requestAnimationFrame(render);
+  // requestAnimationFrame(render);
 }
 
 // event listeners
