@@ -68,7 +68,9 @@ function noteOnListener(note, velocity) {
       var match1 = false,
         match2 = false,
         match3 = false,
-        match4 = false;
+        match4 = false,
+        match5 = false;
+      
       if (
         activeNoteSequence[activeNoteSequence.length - 1] ==
         correctNoteSequence[0]
@@ -89,6 +91,11 @@ function noteOnListener(note, velocity) {
         correctNoteSequence[3]
       ) {
         match4 = true;
+      } else if (
+        activeNoteSequence[activeNoteSequence.length - 1] ==
+        correctNoteSequence[4]
+      ) {
+        match5 = true;
       }
       if (match1) {
         runSequence("handstand");
@@ -98,6 +105,8 @@ function noteOnListener(note, velocity) {
         runSequence("jump");
       } else if (match4) {
         runSequence("slide");
+      } else if (match5) {
+        runSequence("walk");
       } else {
         activeNoteSequence = [];
         runSequence("wrongNote");
