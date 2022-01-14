@@ -70,7 +70,7 @@ function noteOnListener(note, velocity) {
         match3 = false,
         match4 = false,
         match5 = false;
-      
+
       if (
         activeNoteSequence[activeNoteSequence.length - 1] ==
         correctNoteSequence[0]
@@ -169,7 +169,6 @@ function keyPressed() {
 
     let index = parseInt(key);
     mixer.clipAction(gltf.animations[index - 1]).play();
-    
   }
 }
 
@@ -181,7 +180,7 @@ function setupGLTF() {
   loader.load(
     "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest23.gltf?v=1630872801734",
 
-    gltfData => {
+    (gltfData) => {
       // called when the resource is loaded
       console.log("Model is loaded");
 
@@ -199,11 +198,11 @@ function setupGLTF() {
       scene.add(gltf.scene);
       currentStep = 1;
     },
-    xhr => {
+    (xhr) => {
       // called while loading is progressing
       console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);
     },
-    error => {
+    (error) => {
       // called when loading has errors
       console.error("An error happened", error);
     }
@@ -243,7 +242,7 @@ function initTHREE() {
   clock = new THREE.Clock();
 
   // scene.background = new THREE.Color(0xdddddd);
- 
+
   setupGLTF();
   camera = new THREE.PerspectiveCamera(
     60,
@@ -262,14 +261,14 @@ function initTHREE() {
   const dirLight = new THREE.DirectionalLight(0xffffff);
   dirLight.position.set(0, 20, 10);
   scene.add(dirLight);
-  
+
   // ground
-  const mesh = new THREE.Mesh(
-    new THREE.PlaneGeometry(3000, 3000),
-    new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false })
-  );
-  mesh.rotation.x = -Math.PI / 2;
-  scene.add(mesh);
+  // const mesh = new THREE.Mesh(
+  //   new THREE.PlaneGeometry(3000, 3000),
+  //   new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false })
+  // );
+  // mesh.rotation.x = -Math.PI / 2;
+  // scene.add(mesh);
 
   // const grid = new THREE.GridHelper(200, 40, 0x000000, 0x000000);
   // grid.material.opacity = 0.2;
@@ -278,11 +277,9 @@ function initTHREE() {
 
   // render
   renderer = new THREE.WebGLRenderer();
-  renderer.setClearColor("#333333");
+  renderer.setClearColor("#FF9800");
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  
-
 
   // container
   container = document.getElementById("container-three");
@@ -297,14 +294,10 @@ function initTHREE() {
   params = {
     jump: 0,
     walk: 0,
-    value3: 0
+    value3: 0,
   };
   gui.add(params, "jump", 0, 1).step(1);
-  gui
-    .add(params, "walk")
-    .min(0)
-    .max(1)
-    .step(1);
+  gui.add(params, "walk").min(0).max(1).step(1);
   // .listen()
   // .onChange(callback)
   let folder = gui.addFolder("FolderName");
@@ -316,7 +309,7 @@ function initTHREE() {
   container.appendChild(stats.dom);
   // render();
 }
-			//
+//
 function animate() {
   // requestAnimationFrame(animate);
   // stats.update();
@@ -336,27 +329,25 @@ function animate() {
 function stopAnimations() {
   for (let i = 0; i < gltf.animations.length; i++) {
     mixer.clipAction(gltf.animations[i]).stop();
-    
   }
 }
 
 function render() {
   renderer.render(scene, camera);
-  if (keyindex == 1){
+  if (keyindex == 1) {
     model.position.x -= 0.05;
-  } else if (keyindex == 2){
+  } else if (keyindex == 2) {
     model.position.z += 0;
-  } else if (keyindex == 3){
+  } else if (keyindex == 3) {
     model.position.z += 0.06;
     // if(model.position.y < 0.06 && model.position.y > 0) {
     //   model.position.y
     // }
-  } else if (keyindex == 4){
+  } else if (keyindex == 4) {
     model.position.z += 0.07;
-  } else if (keyindex == 5){
+  } else if (keyindex == 5) {
     model.position.z += 0.05;
   }
-
 
   // requestAnimationFrame(render);
 }
@@ -369,7 +360,7 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-		// function createGUI( model, animations ) {
+// function createGUI( model, animations ) {
 
 // 				const states = ['handstand', 'idle', 'jump', 'slide', 'walk'];
 // 				gui = new dat.gui.GUI();
@@ -381,7 +372,7 @@ function onWindowResize() {
 // 					const clip = animations[i];
 // 					const action = mixer.clipAction(clip);
 // 					actions[clip.name] = action;
-          
+
 // 					if (states.indexOf(clip.name) >= 4) {
 // 						action.clampWhenFinished = true;
 // 						action.loop = THREE.LoopOnce;
@@ -410,7 +401,7 @@ function onWindowResize() {
 // 				if (previousAction !== activeAction) {
 // 					previousAction.fadeOut(duration);
 // 				}
-        
+
 // 				activeAction
 // 					.reset()
 // 					.setEffectiveTimeScale( 1 )
@@ -420,7 +411,6 @@ function onWindowResize() {
 
 // 			}
 //     }
-
 
 // for the linter
 /* global
