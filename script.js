@@ -186,6 +186,7 @@ function setupGLTF() {
       console.log("Model is loaded");
 
       gltf = gltfData;
+      console.log(gltf);
       model = gltf.scene;
       model.position = (positionModel[0], positionModel[1], positionModel[2]);
       // use after animation is added:
