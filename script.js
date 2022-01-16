@@ -163,7 +163,7 @@ function runSequence(sequence) {
 }
 
 function keyPressed() {
-  if (key >= 1 && key <= 5) {
+  if (key >= 1 && key <= 9) {
     stopAnimations();
     keyindex[0] = parseInt(key);
 
@@ -181,7 +181,7 @@ function setupGLTF() {
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest23.gltf?v=1630872801734",
     // "https://cdn.glitch.global/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b/mixamoTrial.gltf?v=1642268879609",
     // "https://cdn.glitch.global/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b/mixamoTrial2.gltf?v=1642270637359",
-    "https://cdn.glitch.global/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b/mixBlender.gltf?v=1642352715730",
+    "https://cdn.glitch.global/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b/mixBlender.gltf?v=1642372778434",
 
     (gltfData) => {
       // called when the resource is loaded
