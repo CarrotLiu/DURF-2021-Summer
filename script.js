@@ -179,8 +179,9 @@ function setupGLTF() {
 
   loader.load(
     // "https://cdn.glitch.com/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b%2Fbrushmantest23.gltf?v=1630872801734",
-    "https://cdn.glitch.global/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b/mixamoTrial.gltf?v=1642268879609",
+    // "https://cdn.glitch.global/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b/mixamoTrial.gltf?v=1642268879609",
     // "https://cdn.glitch.global/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b/mixamoTrial2.gltf?v=1642270637359",
+    "https://cdn.glitch.global/0aa4cfe1-11c0-401b-8a81-9c5907f3dd8b/mixBlender.gltf?v=1642352715730",
 
     (gltfData) => {
       // called when the resource is loaded
@@ -191,7 +192,7 @@ function setupGLTF() {
       model = gltf.scene;
       model.position = (positionModel[0], positionModel[1], positionModel[2]);
       // use after animation is added:
-      gltf.scene.scale.set(6, 6, 6);
+      gltf.scene.scale.set(600, 600, 600);
       mixer = new THREE.AnimationMixer(gltf.scene);
       // gltf.animations.forEach((clip) => {mixer.clipAction(clip).play(); });
       let action = mixer.clipAction(gltf.animations[1]);
