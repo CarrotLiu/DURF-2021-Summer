@@ -107,6 +107,8 @@ function noteOnListener(note, velocity) {
         runSequence("slide");
       } else if (match5) {
         runSequence("walk");
+      } else if (match5) {
+        runSequence("inced");
       } else {
         activeNoteSequence = [];
         runSequence("wrongNote");
